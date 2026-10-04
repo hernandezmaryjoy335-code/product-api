@@ -267,6 +267,16 @@ class Database {
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         );
+        if ($driver === 'mysql') {
+    $caPath = ROOT_DIR . 'certs/ca.pem';
+
+    if (!is_readable($caPath)) {
+        throw new RuntimeException('Missing Aiven CA certificate: certs/ca.pem');
+    }
+
+    $options[PDO::MYSQL_ATTR_SSL_CA] = $caPath;
+    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = true;
+}
 
         try {
             $this->db = new PDO($dsn, $username, $password, $options);

@@ -347,4 +347,8 @@ $config['csrf_token_name']         = 'csrf_test_name';
 $config['csrf_cookie_name']        = 'csrf_cookie_name';
 $config['csrf_expire']             = 7200;
 $config['csrf_regenerate']         = FALSE;
+$config['allow_origin'] = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+];
 ?>

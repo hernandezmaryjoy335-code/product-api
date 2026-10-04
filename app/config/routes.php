@@ -45,3 +45,30 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 /** @var object $router **/
 
 $router->get('/', 'Welcome::index');
+
+// Migration routes — restricted to CLI by MigrationController.
+$router->get('/create-migration/{migration_class}', 'MigrationController::create_migration');
+$router->get('/migrate', 'MigrationController::migrate');
+$router->get('/rollback', 'MigrationController::rollback');
+$router->get('/rollback-all', 'MigrationController::rollback_all');
+$router->get('/refresh', 'MigrationController::refresh');
+$router->get('/status', 'MigrationController::status');
+// Authentication
+$router->post('/api/login', 'AuthController::login');
+$router->get('/api/profile', 'AuthController::profile');
+
+// Browser preflight requests
+$router->options('/api/login', 'AuthController::options');
+$router->options('/api/profile', 'AuthController::options');
+if (PHP_SAPI === 'cli') {
+    $router->get('/create-user', 'AccountSetup::index');
+}
+$router->post('/api/logout', 'AuthController::logout');
+$router->get('/api/products', 'ProductController::index');
+$router->get('/api/products', 'ProductController::index');
+$router->post('/api/products', 'ProductController::store');
+$router->put('/api/products/{id}', 'ProductController::update');
+$router->delete('/api/products/{id}', 'ProductController::destroy');
+
+$router->options('/api/products', 'ProductController::options');
+$router->options('/api/products/{id}', 'ProductController::options');

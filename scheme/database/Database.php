@@ -268,10 +268,16 @@ class Database {
             PDO::ATTR_EMULATE_PREPARES   => false,
         );
         if ($driver === 'mysql') {
-    $caPath = ROOT_DIR . 'certs/ca.pem';
+    $caPath = getenv('DB_SSL_CA');
 
-    if (!is_readable($caPath)) {
-        throw new RuntimeException('Missing Aiven CA certificate: certs/ca.pem');
+    if (!$caPath) {
+        $caPath = ROOT_DIR . 'certs/ca.pem';
+    }
+
+    if (!is_file($caPath) || !is_readable($caPath)) {
+        throw new RuntimeException(
+            'Missing Aiven CA certificate: ' . $caPath
+        );
     }
 
     $options[PDO::MYSQL_ATTR_SSL_CA] = $caPath;

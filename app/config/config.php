@@ -350,5 +350,6 @@ $config['csrf_regenerate']         = FALSE;
 $config['allow_origin'] = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'https://product-frontend-tau-sandy.vercel.app/'
 ];
 ?>
